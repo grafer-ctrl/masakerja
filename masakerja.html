@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Hitung Masa Kerja</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label, input { display: block; margin-bottom: 10px; }
+    #hasil { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Hitung Masa Kerja Karyawan</h2>
+  <label for="mulai">Tanggal Mulai Kerja:</label>
+  <input type="date" id="mulai">
+
+  <label for="akhir">Tanggal Akhir Kerja:</label>
+  <input type="date" id="akhir">
+
+  <button onclick="hitungMasaKerja()">Hitung</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    function hitungMasaKerja() {
+      const mulai = new Date(document.getElementById("mulai").value);
+      const akhir = new Date(document.getElementById("akhir").value);
+
+      if (isNaN(mulai) || isNaN(akhir)) {
+        document.getElementById("hasil").innerText = "Mohon isi kedua tanggal.";
+        return;
+      }
+
+      if (akhir < mulai) {
+        document.getElementById("hasil").innerText = "Tanggal akhir harus setelah tanggal mulai.";
+        return;
+      }
+
+      let tahun = akhir.getFullYear() - mulai.getFullYear();
+      let bulan = akhir.getMonth() - mulai.getMonth();
+      let hari = akhir.getDate() - mulai.getDate();
+
+      if (hari < 0) {
+        bulan -= 1;
+        hari += new Date(akhir.getFullYear(), akhir.getMonth(), 0).getDate();
+      }
+
+      if (bulan < 0) {
+        tahun -= 1;
+        bulan += 12;
+      }
+
+      document.getElementById("hasil").innerText =
+        `Masa kerja: ${tahun} tahun, ${bulan} bulan, ${hari} hari.`;
+    }
+  </script>
+</body>
+</html>
